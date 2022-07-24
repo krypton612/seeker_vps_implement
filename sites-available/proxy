@@ -1,0 +1,25 @@
+server {
+	listen 80;
+	
+	# Put here you domain	
+	#
+	server_name midominio.com;
+
+	# Max file size useful for file uploading 
+	# 
+	client_max_body_size 8M;
+	
+	location / {	
+	    # NGINX acting as reverse proxy
+	    #
+	    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+	    proxy_set_header X-Forwarded-Proto $scheme;
+	    proxy_set_header X-Real-IP $remote_addr;
+	    proxy_set_header Host $http_host;
+	    #
+	    # Set the backend url and port, port is optional for standard services
+	    # when there is a variable as a part of proxy_pass URL a resolver is needed.
+	    #
+	    proxy_pass http://miurl.internal:port;
+	}
+}
